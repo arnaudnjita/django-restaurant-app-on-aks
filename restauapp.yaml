@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restau-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restau-app
+  template:
+    metadata:
+      labels:
+        app: restau-app
+    spec:
+      containers:
+      - name: restau-app
+        image: restauappacr.azurecr.io/restau-app:v2
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_HOST
+          value: "restau-db-server.postgres.database.azure.com"
+        - name: DATABASE_USER
+          value: "restau"
+        - name: DATABASE_PASSWORD
+          value: "111111amM"
+        - name: DATABASE_NAME
+          value: "restau-db"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                    - restau-app
+              topologyKey: "kubernetes.io/hostname"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restau-alb
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  selector:
+    app: restau-app
+  
