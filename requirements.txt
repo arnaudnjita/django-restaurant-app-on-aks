@@ -1,9 +1,14 @@
-asgiref==3.7.2
+# Web application framework.
 Django==4.2.1
+
+# PostgreSQL database adapter for Python.
 psycopg2-binary==2.9.6
+
+# This package is used to read key-value pairs from .env file and set them as environment variables. In this sample app, those variables describe how to connect to the database locally.
 python-dotenv==1.0.0
-sqlparse==0.4.4
-tzdata==2023.3
+
+# Static file serving for WSGI applications, used in the deployed app.
+# This package is used in the azureproject/production.py file, which configures production settings.
 whitenoise==6.4.0
 
 
