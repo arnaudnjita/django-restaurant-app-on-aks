@@ -4,6 +4,7 @@ The applications image was built with Docker and pushed to Azure Container Regis
 
 # How to Setup and run locally
 1. Clone this project to your local machine using the the command
+
 ```shell
 git clone https://github.com/arnaudnjita/ django-restaurant-app-on-aks.git
 ```
@@ -12,6 +13,7 @@ git clone https://github.com/arnaudnjita/ django-restaurant-app-on-aks.git
 
 
 2. Create a virtual environment
+   
 ```shell
 py -m venv .venv
 ```
@@ -20,6 +22,7 @@ py -m venv .venv
 
 
 3. Activate the virtual environment
+   
 ```shell
 source env/Scripts/activate
 ```
@@ -29,6 +32,7 @@ source env/Scripts/activate
 
 4. Generate a requirements.txt file if you don’t have one
 Create a requirements.txt file to list out the dependencies for the Django Application.
+
 ```shell
 python -m pip freeze > requirements.txt
 ```
@@ -44,6 +48,7 @@ whitenoise==6.4.0
 
 
 5. Install the requirements for the django app
+   
 ```shell
 pip install -r requirements.txt
 ```
@@ -52,6 +57,7 @@ pip install -r requirements.txt
 
 
 6. Generate a unique secret key using the command below and copy it
+   
 ```shell
 python -c 'import secrets; print(secrets.token_hex())'
 ```
@@ -61,6 +67,7 @@ python -c 'import secrets; print(secrets.token_hex())'
 
 7. Create a .env file and assign the secret key generated to the SECRET_KEY variable
 (This is because you can’t run the django app without the secret key)
+
 ```shell
 SECRET_KEY=YOUR_SECRET_KEY_GENERATED
 ```
@@ -69,6 +76,7 @@ SECRET_KEY=YOUR_SECRET_KEY_GENERATED
 
 
 8. Apply migrations to reflect the app’s database models in the default sqlite database
+
 ```shell
 python manage.py migrate
 ```
@@ -77,6 +85,7 @@ python manage.py migrate
 
 
 9. Run the application server
+    
 ```shell
 python manage.py runserver
 ```
@@ -84,6 +93,7 @@ python manage.py runserver
 ![image](https://github.com/arnaudnjita/django-restaurant-app-on-aks/assets/50627574/a7fd2487-76c4-4987-bf67-640813ebf187)
 
 10. Access the app in the browser via the development server
+    
 ```shell
 http://127.0.0.1:8000/
 ```
