@@ -41,7 +41,9 @@ pip install -r requirements.txt
 
 
 6. Generate a unique secret key using the command below and copy it
+```shell
 python -c 'import secrets; print(secrets.token_hex())'
+```
 
 ![image](https://github.com/arnaudnjita/django-restaurant-app-on-aks/assets/50627574/bfc8f9ce-cc1a-4378-a7d3-3ddd3b81ac99)
 
