@@ -98,6 +98,9 @@ python manage.py runserver
 http://127.0.0.1:8000/
 ```
 
+![image](https://github.com/arnaudnjita/django-restaurant-app-on-aks/assets/50627574/afa2dd8d-f2ed-4bd7-bdb2-717a448b036b)
+
+
 
 
 
