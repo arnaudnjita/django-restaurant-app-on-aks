@@ -2,7 +2,7 @@
 This project is Django Restaurant App thats connected with Azure Postgresql Flexible Server. 
 The applications image was built with Docker and pushed to Azure Container Registry (ACR) and deployed to a Kubernetes Cluster Service on the MS Azure Platform (AKS)
 
-# How to Setup and run locally
+# How to setup and run locally
 1. Clone this project to your local machine using the the command
 
 ```shell
