@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: restau-app
-        image: restauappacr.azurecr.io/restau-app
+        image: restauappacr.azurecr.io/restau-app:v2
         ports:
         - containerPort: 8000
         env:
