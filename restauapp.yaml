@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: restau-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: restau-app
@@ -40,7 +40,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: restau-alb
+  name: restau-app-alb
 spec:
   type: LoadBalancer
   ports:
