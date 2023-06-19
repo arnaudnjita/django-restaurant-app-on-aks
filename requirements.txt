@@ -1,5 +1,5 @@
 # Web application framework.
-Django==4.2.1
+Django==4.2.2
 
 # PostgreSQL database adapter for Python.
 psycopg2-binary==2.9.6
