@@ -63,7 +63,7 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push image to ACR
         run: |
-          az acr build --image "${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}" --registry "${{ vars.AZURE_CONTAINER_REGISTRY }}" -g "${{ vars.RESOURCE_GROUP }}" .
+          az acr build --image ${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ vars.AZURE_CONTAINER_REGISTRY }} -g ${{ vars.RESOURCE_GROUP }} .
 
   deploy:
     permissions:
@@ -94,8 +94,8 @@ jobs:
       - name: Get K8s context
         uses: azure/aks-set-context@v3
         with:
-          resource-group: ${{ env.RESOURCE_GROUP }}
-          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
           admin: 'false'
           use-kubelogin: 'true'
 
