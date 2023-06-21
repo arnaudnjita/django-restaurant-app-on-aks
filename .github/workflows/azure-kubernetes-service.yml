@@ -118,7 +118,7 @@ jobs:
         with:
           action: deploy
           manifests: |
-            k8s/${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+            ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
           images: |
             ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
           imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
