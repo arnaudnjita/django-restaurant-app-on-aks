@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: restau-app
-        image: restauappacr.azurecr.io/restau-app:v2
+        image: ${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
         ports:
         - containerPort: 8000
         env:
