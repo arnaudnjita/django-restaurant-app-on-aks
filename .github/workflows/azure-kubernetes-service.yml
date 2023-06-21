@@ -102,10 +102,14 @@ jobs:
 
       # Deploys application based on given manifest file
       - name: Deploys application
-        uses: Azure/k8s-deploy@v4
-        with:
-          action: deploy
-          manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
-          images: |
-            ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
-          imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+        run: |
+          kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+
+          
+        # uses: Azure/k8s-deploy@v4
+        # with:
+        #   action: deploy
+          # manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+        #   images: |
+        #     ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
+        #   imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
