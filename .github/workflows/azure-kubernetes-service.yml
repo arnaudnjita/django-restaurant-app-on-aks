@@ -63,7 +63,7 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Build and push image to ACR
         run: |
-          az acr build --image ${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ vars.AZURE_CONTAINER_REGISTRY }} -g ${{ vars.RESOURCE_GROUP }} .
+          az acr build --image "${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}" --registry "${{ vars.AZURE_CONTAINER_REGISTRY }}" -g "${{ vars.RESOURCE_GROUP }}" .
 
   deploy:
     permissions:
@@ -104,6 +104,6 @@ jobs:
         uses: Azure/k8s-deploy@v4
         with:
           action: deploy
-          manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+          manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
           images: |
             ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
