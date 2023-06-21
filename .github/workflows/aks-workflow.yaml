@@ -1,0 +1,1 @@
+# yaml file to build and deploy a django app to azure kubernetes service (aks) using github actions
