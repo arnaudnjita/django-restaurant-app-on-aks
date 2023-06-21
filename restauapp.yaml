@@ -28,16 +28,16 @@ spec:
           value: "restau-db"
       imagePullSecrets:
         - name: acr-secret
-      # affinity:
-      #   podAntiAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       - labelSelector:
-      #           matchExpressions:
-      #             - key: "app"
-      #               operator: In
-      #               values:
-      #               - restau-app
-      #         topologyKey: "kubernetes.io/hostname"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                    - restau-app
+              topologyKey: "kubernetes.io/hostname"
 ---
 apiVersion: v1
 kind: Service
