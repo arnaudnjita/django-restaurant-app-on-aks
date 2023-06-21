@@ -26,6 +26,8 @@ spec:
           value: "111111amM"
         - name: DATABASE_NAME
           value: "restau-db"
+      imagePullSecrets:
+        - name: acr-secret
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
