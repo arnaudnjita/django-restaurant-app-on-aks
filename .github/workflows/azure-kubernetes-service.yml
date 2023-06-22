@@ -61,9 +61,22 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # Builds and pushes an image up to your Azure Container Registry
-      - name: Build and push image to ACR
+      - name: Docker build
         run: |
-          az acr build --image ${{vars.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ vars.AZURE_CONTAINER_REGISTRY }} -g ${{ vars.RESOURCE_GROUP }} .
+          docker build --tag ${{ env.CONTAINER_NAME }}:${{ github.sha }} .
+
+      - name: Docker login
+        run: |
+          docker login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Tag docker image
+        run: |
+          docker tag ${{ env.CONTAINER_NAME }}:${{ github.sha }} ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+
+      - name: Push docker image
+        run: |
+          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+
 
   deploy:
     permissions:
@@ -114,7 +127,7 @@ jobs:
       - name: Deploys application
         # run: |
         #   kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
-        uses: Azure/k8s-deploy@v4
+        uses: Azure/k8s-deploy@v1.5
         with:
           action: deploy
           manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
