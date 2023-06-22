@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: Deployment
 metadata:
   name: restau-app
@@ -33,7 +33,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                  - key: "app"
+                  - key: "restau-app"
                     operator: In
                     values:
                     - restau-app
