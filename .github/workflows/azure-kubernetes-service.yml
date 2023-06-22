@@ -63,19 +63,19 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
       - name: Docker build
         run: |
-          docker build --tag ${{ env.CONTAINER_NAME }}:${{ github.sha }} .
+          docker build --tag ${{ vars.CONTAINER_NAME }}:${{ github.sha }} .
 
       - name: Docker login
         run: |
-          docker login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+          docker login ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
       - name: Tag docker image
         run: |
-          docker tag ${{ env.CONTAINER_NAME }}:${{ github.sha }} ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+          docker tag ${{ vars.CONTAINER_NAME }}:${{ github.sha }} ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
 
       - name: Push docker image
         run: |
-          docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+          docker push ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
 
 
   deploy:
