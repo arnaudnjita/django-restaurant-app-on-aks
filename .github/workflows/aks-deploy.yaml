@@ -82,8 +82,7 @@ jobs:
 
       - name: Deploys application
         run: |
-          az aks get-credentials --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.CLUSTER_NAME }}
-          kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+          kubectl apply -f /home/runner/work/azure-django-app/azure-django-app/deployment.yaml
         # uses: Azure/k8s-deploy@v1.5
         # with:
         #   action: deploy
