@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: django-app
-          image: restauappacr.azurecr.io/restau-app:latest  # Replace with your Azure Container Registry details
+          image: restauappacr.azurecr.io/restau-app:${{ github.sha }}  # Replace with your Azure Container Registry details
           ports:
             - containerPort: 8000  # Port on which your Django app listens
           env:
