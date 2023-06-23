@@ -78,6 +78,4 @@ jobs:
           secret-type: docker-registry
 
       - name: Deploy to Azure Kubernetes Service
-        run: |
-          az aks get-credentials --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.CLUSTER_NAME }}
-          kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+        run: kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
