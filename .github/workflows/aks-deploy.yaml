@@ -67,6 +67,16 @@ jobs:
           admin: 'false'
           use-kubelogin: 'true'
 
+        # Create an ImagePullSecret to pull from your Azure Container Registry
+      - name: Create ImagePullSecret
+        uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ vars.ACR_NAME }}.azurecr.io
+          container-registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+          secret-name: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+          secret-type: docker-registry
+
       - name: Deploy to Azure Kubernetes Service
         run: |
           az aks get-credentials --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.CLUSTER_NAME }}
