@@ -82,7 +82,7 @@ jobs:
 
       - name: Deploys application
         run: |
-          kubectl apply -f /home/runner/work/azure-django-app/azure-django-app/deployment.yaml
+          kubectl apply -f /home/runner/work/_temp/deployment.yaml
         # uses: Azure/k8s-deploy@v1.5
         # with:
         #   action: deploy
