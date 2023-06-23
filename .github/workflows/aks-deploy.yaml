@@ -81,12 +81,12 @@ jobs:
           secret-type: docker-registry
 
       - name: Deploys application
-        run: |
-          kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
-        # uses: Azure/k8s-deploy@v1.5
-        # with:
-        #   action: deploy
-        #   manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
-        #   images: |
-        #     ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }}
-        #   imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+        # run: |
+        #   kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+        uses: Azure/k8s-deploy@v1.5
+        with:
+          action: deploy
+          manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+          images: |
+            ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:latest
+          imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
