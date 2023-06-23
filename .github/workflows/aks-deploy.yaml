@@ -1,0 +1,133 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main-v2  # Replace with your branch name
+
+# env:
+#   REGISTRY_NAME: your-acr-name  # Replace with your ACR name
+#   REGISTRY_LOGIN_SERVER: your-acr-name.azurecr.io  # Replace with your ACR login server
+#   AKS_CLUSTER_NAME: your-aks-cluster-name  # Replace with your AKS cluster name
+#   AKS_RESOURCE_GROUP: your-aks-resource-group  # Replace with your AKS resource group name
+#   SP_APP_ID: your-service-principal-app-id  # Replace with your Service Principal App ID
+#   SP_PASSWORD: your-service-principal-password  # Replace with your Service Principal Password
+#   SP_TENANT: your-service-principal-tenant  # Replace with your Service Principal Tenant ID
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Logs in with your Azure credentials
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Builds and pushes an image up to your Azure Container Registry
+      - name: Docker build
+        run: |
+          docker build --tag ${{ vars.IMAGE_NAME }}:${{ github.sha }} .
+
+      - name: Docker login
+        run: |
+          docker login ${{ vars.ACR_NAME }}.azurecr.io -u ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Tag docker image
+        run: |
+          docker tag ${{ vars.IMAGE_NAME }}:${{ github.sha }} ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }}jobs:
+
+  deploy:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    environment: env
+    steps:
+      # Checks out the repository this file is in
+      - uses: actions/checkout@v3
+
+      # Logs in with your Azure credentials
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Use kubelogin to configure your kubeconfig for Azure auth
+      - name: Set up kubelogin for non-interactive login
+        uses: azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.25'
+
+      # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+      - name: Get K8s context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ vars.RESOURCE_GROUP }}
+          cluster-name: ${{ vars.CLUSTER_NAME }}
+          admin: 'false'
+          use-kubelogin: 'true'
+
+      # Create an ImagePullSecret to pull from your Azure Container Registry
+      - name: Create ImagePullSecret
+        uses: azure/k8s-create-secret@v1
+        with:
+          container-registry-url: ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+          container-registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          container-registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+          secret-name: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+          secret-type: docker-registry
+
+      # Deploys application based on given manifest file
+      - name: Deploys application
+        # run: |
+        #   kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+        uses: Azure/k8s-deploy@v1.5
+        with:
+          action: deploy
+          manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
+          images: |
+            ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
+          imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+
+  
+#   deploy-to-aks:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       # Checkout the repository
+#       - name: Checkout
+#         uses: actions/checkout@v2
+
+#       # Install Azure CLI
+#       - name: Install Azure CLI
+#         uses: azure/cli@v1
+#         with:
+#           inlineScript: |
+#             az --version
+#             az extension add --name aks
+
+#       # Authenticate with Azure and AKS
+#       - name: Azure Login
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+#       # Set AKS context
+#       - name: Set AKS context
+#         run: |
+#           az aks get-credentials --resource-group ${{ env.AKS_RESOURCE_GROUP }} --name ${{ env.AKS_CLUSTER_NAME }}
+
+#       # Deploy to AKS
+#       - name: Deploy to AKS
+#         run: |
+#           kubectl set image deployment/django-app-deployment django-app=${{ env.REGISTRY_LOGIN_SERVER }}/your-image-name:${{ github.sha }}

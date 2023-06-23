@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app-deployment
+  labels:
+    app: django-app
+spec:
+  replicas: 1  # Number of desired replicas
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+        - name: django-app
+          image: restauappacr.azurecr.io/restau-app:${{ github.sha }}  # Replace with your Azure Container Registry details
+          ports:
+            - containerPort: 8000  # Port on which your Django app listens
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: "azureproject.settings"  # Replace with your Django project settings module
+            - name: DATABASE_HOST
+              value: "restau-db-server.postgres.database.azure.com"  # Replace with your Azure PostgreSQL server host
+            - name: POSTGRES_PORT
+              value: "5432"  # Replace with your Azure PostgreSQL server port
+            - name: DATABASE_NAME
+              value: "restau-db"  # Replace with your PostgreSQL database name
+            - name: DATABASE_USER
+              value: "restau"  # Replace with your PostgreSQL username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: POSTGRES_PASSWORD  # Replace with your Kubernetes Secret name for Azure PostgreSQL password
+                  key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-app-alb
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  selector:
+    app: django-app
+  
+
+
