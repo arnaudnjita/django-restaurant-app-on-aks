@@ -31,7 +31,7 @@ spec:
             - name: DATABASE_USER
               value: "restau"  # Replace with your PostgreSQL username
             - name: DATABASE_PASSWORD
-              value: ${{ secrets.POSTGRES_PASSWORD }}  # Replace with your PostgreSQL password
+              value: 111111amM  # Replace with your PostgreSQL password
 ---
 apiVersion: v1
 kind: Service
