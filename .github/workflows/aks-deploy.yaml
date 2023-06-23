@@ -82,7 +82,7 @@ jobs:
 
       - name: Deploys application
         run: |
-          kubectl apply -f /deployment.yaml
+          kubectl apply -f ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
         # uses: Azure/k8s-deploy@v1.5
         # with:
         #   action: deploy
