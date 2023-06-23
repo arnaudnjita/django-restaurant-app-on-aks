@@ -3,7 +3,7 @@ name: Django App CI/CD
 on:
   push:
     branches:
-      - main  # Change this to your desired branch
+      - main-v2  # Change this to your desired branch
 
 jobs:
   build-and-push:
