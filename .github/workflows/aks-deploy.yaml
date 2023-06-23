@@ -25,15 +25,15 @@ jobs:
 
       - name: Docker build
         run: |
-          docker build --tag ${{ vars.IMAGE_NAME }}:v2 .
+          docker build --tag ${{ vars.IMAGE_NAME }}:v6 .
 
       - name: Tag docker image
         run: |
-          docker tag ${{ vars.IMAGE_NAME }}:v2 ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v2
+          docker tag ${{ vars.IMAGE_NAME }}:v6 ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v6
 
       - name: Push docker image
         run: |
-          docker push ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v2
+          docker push ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v6
 
 
   deploy:
@@ -88,5 +88,5 @@ jobs:
         #   action: deploy
         #   manifests: ${{ vars.DEPLOYMENT_MANIFEST_PATH }}
         #   images: |
-        #     ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v2
+        #     ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v3
         #   imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}

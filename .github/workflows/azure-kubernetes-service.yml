@@ -134,3 +134,9 @@ jobs:
           images: |
             ${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ vars.CONTAINER_NAME }}:${{ github.sha }}
           imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
+
+
+# docker build --tag django-app:v3 .
+# docker tag django-app:v3 restauappacr.azurecr.io/django-app:v3
+# docker push restauappacr.azurecr.io/django-app:v3
+# kubectl apply -f deployment.yaml
