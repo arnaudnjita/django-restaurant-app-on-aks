@@ -1,6 +1,3 @@
-variables:
-  commitId: '${{ github.sha }}'
-  
 apiVersion: apps/v1
 kind: Deployment
 metadata:

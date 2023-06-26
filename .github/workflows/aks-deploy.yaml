@@ -85,8 +85,7 @@ jobs:
           commitId=$(git rev-parse HEAD)
           tempManifestFile="./temp-deployment.yaml"
           genManifestFile="./deployment.yaml"
-          sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile"
-          cp "$tempManifestFile" "$genManifestFile"
+          sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
           ls
           cat "$genManifestFile"
           kubectl apply -f ./deployment.yaml
