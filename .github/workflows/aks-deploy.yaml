@@ -22,14 +22,6 @@ jobs:
           login-server: ${{ vars.ACR_LOGIN_SERVER }}
           username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-
-      - name: Generate manifest 1
-        run: |
-          commitId=$(git rev-parse HEAD)
-          tempManifestFile="./temp-deployment.yaml"
-          genManifestFile="./deployment.yaml"
-          sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
-          ls
           
       - name: Docker build
         run: |
@@ -90,8 +82,13 @@ jobs:
 
       - name: Deploys application
         run: |
+          commitId=$(git rev-parse HEAD)
+          tempManifestFile="./temp-deployment.yaml"
+          genManifestFile="./deployment.yaml"
+          sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
           ls
-          kubectl apply -f deployment.yaml
+          kubectl apply -f ./deployment.yaml
+          rm "$genManifestFile"
         # uses: Azure/k8s-deploy@v1.5
         # with:
         #   action: deploy
