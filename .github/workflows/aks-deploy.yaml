@@ -25,15 +25,15 @@ jobs:
 
       - name: Docker build
         run: |
-          docker build --tag ${{ vars.IMAGE_NAME }}:v7 .
+          docker build --tag ${{ vars.IMAGE_NAME }}:${{ github.sha }} .
 
       - name: Tag docker image
         run: |
-          docker tag ${{ vars.IMAGE_NAME }}:v7 ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v7
+          docker tag ${{ vars.IMAGE_NAME }}:${{ github.sha }} ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Push docker image
         run: |
-          docker push ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:v7
+          docker push ${{ vars.ACR_NAME }}.azurecr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }}
 
 
   deploy:

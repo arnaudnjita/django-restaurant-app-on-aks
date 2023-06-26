@@ -1,3 +1,7 @@
+variables:
+  commitId: '${{ github.sha }}'
+--- 
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +20,7 @@ spec:
     spec:
       containers:
         - name: django-app
-          image: restauappacr.azurecr.io/django-app:v7 # Replace with your own image
+          image: restauappacr.azurecr.io/django-app:${{ variables.commitId }} # Replace with your own image
           ports:
             - containerPort: 8000  # Port on which your Django app listens
           env:
