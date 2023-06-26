@@ -47,7 +47,7 @@ COPY requirements.txt /code/
 
 RUN python -m venv venv
 
-RUN source venv/bin/activate
+RUN source venv/Scripts/activate
 
 # Install the project dependencies
 RUN pip install --no-cache-dir -r requirements.txt
