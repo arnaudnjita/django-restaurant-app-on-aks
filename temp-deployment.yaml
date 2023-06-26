@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: django-app
-          image: restauappacr.azurecr.io/django-app:${{ variables.commitId }} # Replace with your own image
+          image: restauappacr.azurecr.io/django-app:{{PLACEHOLDER_COMMIT_ID}} # Replace with your own image
           ports:
             - containerPort: 8000  # Port on which your Django app listens
           env:
