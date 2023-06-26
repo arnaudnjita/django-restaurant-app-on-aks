@@ -45,6 +45,10 @@ WORKDIR /code
 # Copy the requirements file
 COPY requirements.txt /code/
 
+RUN python -m venv venv
+
+RUN source venv/bin/activate
+
 # Install the project dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
