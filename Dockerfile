@@ -47,6 +47,8 @@ COPY requirements.txt /code/
 
 RUN python -m venv venv
 
+RUN cd /venv 
+
 RUN ls
 
 RUN . venv/Scripts/activate
@@ -56,6 +58,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Django project code
 COPY . /code/
+
+RUN ls
 
 # Expose the port on which your Django app listens
 EXPOSE 8000
