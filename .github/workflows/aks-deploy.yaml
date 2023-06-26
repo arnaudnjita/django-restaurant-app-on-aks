@@ -29,6 +29,7 @@ jobs:
           tempManifestFile="./temp-deployment.yaml"
           genManifestFile="./deployment.yaml"
           sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
+          ls
           
       - name: Docker build
         run: |
