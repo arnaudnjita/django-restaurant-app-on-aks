@@ -23,22 +23,12 @@ jobs:
           username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
 
-      - name: Generate manifest
+      - name: Generate manifest 1
         run: |
           commitId=$(git rev-parse HEAD)
-
-      - name: Generate manifest
-        run: |
           tempManifestFile="./temp-deployment.yaml"
-
-      - name: Generate manifest
-        run: |
           genManifestFile="./deployment.yaml"
-          
-      - name: Generate manifest
-        run: |
           sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
-
           
       - name: Docker build
         run: |
