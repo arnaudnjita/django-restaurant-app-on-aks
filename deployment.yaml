@@ -1,13 +1,11 @@
-variables:
-  commitId: '${{ github.sha }}'
---- 
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django-app-deployment
   labels:
     app: django-app
+variables:
+  commitId: '${{ github.sha }}'
 spec:
   replicas: 1  # Number of desired replicas
   selector:
