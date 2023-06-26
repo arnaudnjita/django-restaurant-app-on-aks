@@ -43,6 +43,20 @@ spec:
       targetPort: 8000
   selector:
     app: django-app
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: admin-rolebinding
+  namespace: default
+subjects:
+- kind: User
+  name: workflowapp-1687759597467
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: Owner
+  apiGroup: rbac.authorization.k8s.io
 
 
 
