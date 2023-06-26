@@ -27,10 +27,16 @@ jobs:
         run: |
           commitId=$(git rev-parse HEAD)
 
+      - name: Generate manifest
+        run: |
           tempManifestFile="./temp-deployment.yaml"
 
+      - name: Generate manifest
+        run: |
           genManifestFile="./deployment.yaml"
-
+          
+      - name: Generate manifest
+        run: |
           sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
 
           
