@@ -16,15 +16,13 @@ spec:
     spec:
       containers:
         - name: django-app
-          image: restauappacr.azurecr.io/django-app:v6 # Replace with your own image
+          image: restauappacr.azurecr.io/django-app # Replace with your own image
           ports:
             - containerPort: 8000  # Port on which your Django app listens
           env:
-            - name: DJANGO_SETTINGS_MODULE
-              value: "azureproject.settings"  # Replace with your Django project settings module
             - name: DATABASE_HOST
               value: "restau-db-server.postgres.database.azure.com"  # Replace with your Azure PostgreSQL server host
-            - name: POSTGRES_PORT
+            - name: DATABASE_PORT
               value: "5432"  # Replace with your Azure PostgreSQL server port
             - name: DATABASE_NAME
               value: "restau-db"  # Replace with your PostgreSQL database name

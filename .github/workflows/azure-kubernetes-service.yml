@@ -136,7 +136,8 @@ jobs:
           imagepullsecrets: ${{ vars.IMAGE_PULL_SECRET_NAME }}
 
 
-# docker build --tag django-app:v3 .
-# docker tag django-app:v3 restauappacr.azurecr.io/django-app:v3
-# docker push restauappacr.azurecr.io/django-app:v3
+# docker build --tag django-app:v2 .
+# docker tag django-app:v2 restauappacr.azurecr.io/django-app:v2
+# docker push restauappacr.azurecr.io/django-app:v2
 # kubectl apply -f deployment.yaml
+# docker run -it --rm -p 8080:80 django-app:v2

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for whitenoise
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -97,6 +98,10 @@ DATABASES = {
         'HOST': os.environ.get('DBHOST'),
         'USER': os.environ.get('DBUSER'),
         'PASSWORD': os.environ.get('DBPASS'),
+        'PORT': os.environ.get('DBPORT'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
