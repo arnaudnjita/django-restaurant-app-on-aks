@@ -25,16 +25,12 @@ jobs:
 
       - name: Generate manifest
         run: |
-          # Get the commit ID associated with the current commit
           commitId=$(git rev-parse HEAD)
 
-          # Path to the temp Deployment manifest file
           tempManifestFile="./temp-deployment.yaml"
 
-          # Path to the generated Deployment manifest file
           genManifestFile="./deployment.yaml"
 
-          # Replace placeholder with the actual commit ID in the manifest file
           sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
 
           
