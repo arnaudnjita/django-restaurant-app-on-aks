@@ -43,6 +43,19 @@ spec:
       targetPort: 8000
   selector:
     app: django-app
-  
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: my-rolebinding
+  namespace: namespace-workflow-1687757212665
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: Azure Kubernetes Service RBAC Cluster Admin
+subjects:
+- kind: Group
+  name: Ndambi Desmond Group
+
 
 
