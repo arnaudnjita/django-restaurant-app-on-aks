@@ -1,48 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: restau-app
+  name: django-app-deployment
+  labels:
+    app: django-app
 spec:
-  replicas: 1
+  replicas: 1  # Number of desired replicas
   selector:
     matchLabels:
-      app: restau-app
+      app: django-app
   template:
     metadata:
       labels:
-        app: restau-app
+        app: django-app
     spec:
       containers:
-      - name: restau-app
-        image: restauappacr.azurecr.io/restau-app:v2
-        ports:
-        - containerPort: 8000
-        env:
-        - name: DATABASE_HOST
-          value: "restau-db-server.postgres.database.azure.com"
-        - name: DATABASE_USER
-          value: "restau"
-        - name: DATABASE_PASSWORD
-          value: "111111amM"
-        - name: DATABASE_NAME
-          value: "restau-db"
-      imagePullSecrets:
-        - name: acr-secret
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "restau-app"
-                    operator: In
-                    values:
-                    - restau-app
-              topologyKey: "kubernetes.io/hostname"
+        - name: django-app
+          image: restauappacr.azurecr.io/django-app:v2 # Replace with your own image
+          ports:
+            - containerPort: 8000  # Port on which your Django app listens
+          env:
+            - name: DATABASE_HOST
+              value: "restau-db-server.postgres.database.azure.com"  # Replace with your Azure PostgreSQL server host
+            - name: DATABASE_PORT
+              value: "5432"  # Replace with your Azure PostgreSQL server port
+            - name: DATABASE_NAME
+              value: "restau-db"  # Replace with your PostgreSQL database name
+            - name: DATABASE_USER
+              value: "restau"  # Replace with your PostgreSQL username
+            - name: DATABASE_PASSWORD
+              value: 111111amM  # Replace with your PostgreSQL password
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: restau-app-alb
+  name: django-app-alb
 spec:
   type: LoadBalancer
   ports:
@@ -50,5 +42,95 @@ spec:
       port: 80
       targetPort: 8000
   selector:
-    app: restau-app
+    app: django-app
+--- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: restau-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: restau-app
+#   template:
+#     metadata:
+#       labels:
+#         app: restau-app
+#     spec:
+#       containers:
+#       - name: restau-app
+#         image: restauappacr.azurecr.io/restau-app:v2
+#         ports:
+#         - containerPort: 8000
+#         env:
+#         - name: DATABASE_HOST
+#           value: "restau-db-server.postgres.database.azure.com"
+#         - name: DATABASE_USER
+#           value: "restau"
+#         - name: DATABASE_PASSWORD
+#           value: "111111amM"
+#         - name: DATABASE_NAME
+#           value: "restau-db"
+#       imagePullSecrets:
+#         - name: acr-secret
+#       affinity:
+#         podAntiAffinity:
+#           requiredDuringSchedulingIgnoredDuringExecution:
+#             - labelSelector:
+#                 matchExpressions:
+#                   - key: "restau-app"
+#                     operator: In
+#                     values:
+#                     - restau-app
+#               topologyKey: "kubernetes.io/hostname"
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: restau-app-alb
+# spec:
+#   type: LoadBalancer
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 8000
+#   selector:
+#     app: restau-app
   
