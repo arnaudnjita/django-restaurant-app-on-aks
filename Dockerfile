@@ -30,11 +30,11 @@
 # CMD ["manage.py"]
 
 # Base image
-FROM python:3.9
+FROM python:3.11
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# ENV PYTHONDONTWRITEBYTECODE 1
+# ENV PYTHONUNBUFFERED 1
 
 # Make a new directory to put our code in.
 RUN mkdir /code
