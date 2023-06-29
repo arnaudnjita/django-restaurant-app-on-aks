@@ -88,6 +88,7 @@ jobs:
           sed "s/{{PLACEHOLDER_COMMIT_ID}}/$commitId/g" "$tempManifestFile" > "$genManifestFile"
           ls
           cat "$genManifestFile"
+          psql -h restau-db-server.postgres.database.azure.com -U restau 
           kubectl apply -f ./deployment.yaml
           rm "$genManifestFile"
           docker images

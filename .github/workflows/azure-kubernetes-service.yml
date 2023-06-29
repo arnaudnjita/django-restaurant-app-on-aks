@@ -141,5 +141,5 @@ jobs:
 # docker push restauappacr.azurecr.io/django-app:v2
 # kubectl apply -f deployment.yaml
 # docker run -it --rm -p 8000:8000 django-app:v2
-# docker run -it --rm -p 8000:8000 restauappacr.azurecr.io/django-app:11d0113916195b49f5327b526e016922ab4c3174
+# docker run -it --rm -p 8000:8000 restauappacr.azurecr.io/django-app:64af2255338c590ccaeddb5b669fdd8bcd10a8c3
 # postgres://restau:'111111amM'@restau-db-server.postgres.database.azure.com:5432/restau-db
